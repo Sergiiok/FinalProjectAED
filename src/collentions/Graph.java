@@ -208,14 +208,7 @@ public class Graph<T, N extends Number> {
         return camino;
     }
 
-    /**
-     * Devuelve cierto si las aristas conectan todos los vértices del grafo.
-     * Falso en caso contrario.
-     *
-     * @param aristas Las aristas.
-     * @return Cierto si las aristas conectan todos los vértices del grafo.
-     * Falso en caso contrario.
-     */
+    
     public boolean conectaTodosVertices(ArrayList<Edge> aristas) throws IllegalArgumentException {
         ArrayList<Vertex> V = new ArrayList<>();
         int visitados = 0;
@@ -294,12 +287,7 @@ public class Graph<T, N extends Number> {
     }
 
    
-    /**
-     * Añade un nuevo vértice al grafo. El vértice no puede estar ya contenido
-     * en el grafo.
-     *
-     * @param v El vértice que se añadirá al grafo.
-     */
+    
     public void anadirVertice(Vertex v) throws IllegalArgumentException {
         if (this.vertex.contains(v)) {
             throw new IllegalArgumentException("Error al añadir vértice: el vértice ya existe.");
@@ -445,7 +433,7 @@ public class Graph<T, N extends Number> {
     }
     
     
-    public int[][] AlgPrim(int[][] Matriz) {  //Llega la matriz a la que le vamos a aplicar el algoritmo
+    public int[][] PrimAlgoritm(int[][] Matriz) {  //Llega la matriz a la que le vamos a aplicar el algoritmo
         boolean[] marcados = new boolean[vertex.size()]; //Creamos un vector booleano, para saber cuales están marcados
         Vertex vertice = vertex.get(0); //Le introducimos un nodo aleatorio, o el primero
         return AlgPrim(Matriz, marcados, vertice, new int[Matriz.length][Matriz.length]); //Llamamos al método recursivo mandándole 
@@ -496,7 +484,7 @@ public class Graph<T, N extends Number> {
         }
         return true;
     }
-    public ArrayList<Vertex> dijkstra(Vertex origen, Vertex destino) {
+    public ArrayList<Vertex> dijkstraAlgoritm(Vertex origen, Vertex destino) {
 		  ArrayList<Vertex> camino= new ArrayList<Vertex>();
 		  int distancia=INFINITO;
 		  Vertex nodo=origen;
