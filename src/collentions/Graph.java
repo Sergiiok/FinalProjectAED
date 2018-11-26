@@ -5,67 +5,28 @@ import java.util.HashMap;
 
 public class Graph<T, N extends Number> {
 
-    private ArrayList<ArrayList<Edge<N>>> matrizAdyacencias;
-    private HashMap<Integer, ArrayList<Vertex<T>>> listasAdyacencias;
-    private ArrayList<Vertex<T>> vertices;
-    private int nAristas;
-    private int nVertices;
-    private ArrayList<Integer> grados;
+    private ArrayList<ArrayList<Edge<N>>> Adjacenciesmatrix;
+    private HashMap<Integer, ArrayList<Vertex<T>>> AdjacenciesList;
+    private ArrayList<Vertex<T>> vertex;
+    private int edge;
+    private int vertexn;
 
-    /**
-     * Aumenta el grado de un vértice.
-     *
-     * @param id Identificador del vértice.
-     */
-    private void aumentarGrado(int id) throws IllegalArgumentException {
-        if (!(this.existeIdVertice(id))) {
-            throw new IllegalArgumentException("Error al aumentar grado: el vértice no existe.");
-        }
-        this.grados.set(id, this.grados.get(id) + 1);
-    }
 
-    /**
-     * Disminuye el grado de un vértice.
-     *
-     * @param id Identificador del vértice.
-     */
-    private void disminuirGrado(int id) throws IllegalArgumentException {
-        if (!(this.existeIdVertice(id))) {
-            throw new IllegalArgumentException("Error al disminuir grado: el vértice no existe.");
-        }
-        this.grados.set(id, this.grados.get(id) - 1);
-    }
-
-    /**
-     * Constructor por defecto. Crea un grafo con un vértice.
-     */
+   
+    
     public Graph() {
-        this.matrizAdyacencias = new ArrayList<>();
-        this.matrizAdyacencias.add(new ArrayList<Edge<N>>());
-        this.listasAdyacencias = new HashMap<>();
-        this.listasAdyacencias.put(0, new ArrayList<Vertex<T>>());
-        this.vertices = new ArrayList<>();
-        this.vertices.add(new Vertex());
-        this.matrizAdyacencias.get(0).add(null);
-        this.nVertices = 1;
-        this.grados = new ArrayList<>();
-        this.grados.add(0);
+        this.Adjacenciesmatrix = new ArrayList<>();
+        this.Adjacenciesmatrix.add(new ArrayList<Edge<N>>());
+        this.AdjacenciesList = new HashMap<>();
+        this.AdjacenciesList.put(0, new ArrayList<Vertex<T>>());
+        this.vertex = new ArrayList<>();
+        this.vertex.add(new Vertex());
+        this.Adjacenciesmatrix.get(0).add(null);
+        this.vertexn = 1;
+       
     }
 
-//    /**
-//     * Contructor. Crea un grafo con el vértice v.
-//     * @param v El vértice con el que se va a crear el grafo.
-//     */
-//    public Grafo(Vertice v) {
-//        this();
-//        this.vertices.set(0, v);
-//    }
-    /**
-     * Constructor. Crea un grafo con n vértices.
-     *
-     * @param n Número de vértices que se crearán en el grafo.
-     * @throws IllegalArgumentException
-     */
+
     public Graph(int n) throws IllegalArgumentException {
         this();
         if (n < 1) {
@@ -73,15 +34,15 @@ public class Graph<T, N extends Number> {
         }
         for (int i = 0; i < n; i++) {
             if (i > 0) {
-                this.vertices.add(new Vertex<T>());
-                this.nVertices++;
-                this.matrizAdyacencias.add(new ArrayList<Edge<N>>());
-                this.listasAdyacencias.put(i, new ArrayList<Vertex<T>>());
-                this.grados.add(0);
+                this.vertex.add(new Vertex<T>());
+                this.vertexn++;
+                this.Adjacenciesmatrix.add(new ArrayList<Edge<N>>());
+                this.AdjacenciesList.put(i, new ArrayList<Vertex<T>>());
+               
             }
             for (int j = 0; j < n; j++) {
                 if (!(i == 0 && j == 0)) {
-                    this.matrizAdyacencias.get(i).add(null);
+                    this.Adjacenciesmatrix.get(i).add(null);
                 }
             }
         }
@@ -90,120 +51,37 @@ public class Graph<T, N extends Number> {
    
          
 
-    /**
-     * Devuelve la matriz de adyacencias del grafo.
-     *
-     * @return Devuelve la matriz de adyacencias del grafo.
-     */
-    public ArrayList<ArrayList<Edge<N>>> matrizAdyacencias() {
-        return this.matrizAdyacencias;
-    }
+   
+   
 
-    /**
-     * Devuelve las listas de adyacencias del grafo.
-     *
-     * @return Devuelve las listas de adyacencias del grafo.
-     */
-    public HashMap<Integer, ArrayList<Vertex<T>>> listasAdyacencias() {
-        return this.listasAdyacencias;
-    }
-
-//     /**
-//     * Devuelve la lista de adyacencias de un vértice.
-//     * @param id El identificador del vértice
-//     * @return Devuelve la lista de adyacencias de un vértice.
-//     */        
-//    public ArrayList<Vertice<T>> listaAdyacenciasVertice(int id) throws IllegalArgumentException {
-//        if(!this.existeIdVertice(id)) throw new IllegalArgumentException("Error al consultar lista de adyacencias de un vértice: identificador no válido.");
-//        return this.listasAdyacencias.get(id);   
-//    }
-    /**
-     * Devuelve el número de vértices del grafo.
-     *
-     * @return El número de vértices del grafo.
-     */
-    public int numVertices() {
-        return this.nVertices;
-    }
-
-    /**
-     * Devuelve el número de arsitas del grafo.
-     *
-     * @return El número de aristas del grafo.
-     */
-    public int numAristas() {
-        return this.nAristas;
-    }
-
-    /**
-     * Determina si existe un vértice con identificador=id.
-     *
-     * @param id El identificador del vértice a comprobar.
-     * @return Cierto si el grafo contiene un vértice con identificador=id,
-     * falso en caso contrario.
-     */
+   
     private boolean existeIdVertice(int id) {
-        return id >= 0 && id < this.nVertices;
+        return id >= 0 && id < this.vertexn;
     }
 
-    /**
-     * Determina si v está contenido en el grafo.
-     *
-     * @param v El vértice a comprobar.
-     * @return Cierto si el grafo contiene v, falso en caso contrario.
-     */
-    private boolean existeVertice(Vertice v) {
-        return this.vertices.contains(v);
+   
+    private boolean existeVertice(Vertex v) {
+        return this.vertex.contains(v);
     }
 
-    /**
-     * Devuelve el id de un vértice contenido en el grafo.
-     *
-     * @param v El vértice cuyo identificador queremos conocer.
-     * @return El id de v contenido en el grafo.
-     */
-    public int idVertice(Vertice v) throws IllegalArgumentException {
-        if (!this.vertices.contains(v)) {
+    
+    public int idVertice(Vertex v) throws IllegalArgumentException {
+        if (!this.vertex.contains(v)) {
             throw new IllegalArgumentException("Error al consultar el identificador del vértice: el vértice no existe.");
         }
 
-        return this.vertices.indexOf(v);
+        return this.vertex.indexOf(v);
     }
 
-    /**
-     * Devuelve el grado de un vértice contenido en el grafo.
-     *
-     * @param id El identificador del vértice cuyo grado queremos conocer.
-     * @return El grado del vértice.
-     */
-    public int gradoVertice(int id) throws IllegalArgumentException {
-        if (!this.existeIdVertice(id)) {
-            throw new IllegalArgumentException("Error al consultar grado vértice: identificador no válido.");
-        }
-        return this.grados.get(id);
-    }
+   
+   
 
-//     /**
-//     * Devuelve el grado de un vértice contenido en el grafo.
-//     * @param v El vértice cuyo grado queremos conocer.
-//     * @return El grado del vértice.
-//     */
-//    public int gradoVertice(Vertice v) throws IllegalArgumentException {
-//        if(!this.vertices.contains(v)) throw new IllegalArgumentException("Error al consultar grado vértice: vértice no existe.");
-//        return this.gradoVertice(this.vertices.indexOf(v));
-//    }
-    /**
-     * Devuelve las aristas incidentes en un vértice del grafo.
-     *
-     * @param id El identificador del vértice.
-     * @return Las aristas incidentes en v.
-     */
-    public ArrayList<Arista> aristasIncidentes(int id) throws IllegalArgumentException {
+    public ArrayList<Edge> aristasIncidentes(int id) throws IllegalArgumentException {
         if (!this.existeIdVertice(id)) {
             throw new IllegalArgumentException("Error al consultar aristas incidentes: id de vértice no existe.");
         }
-        ArrayList<Arista> aristas = new ArrayList<>();
-        for (int j = 0; j < this.nVertices; j++) {
+        ArrayList<Edge> aristas = new ArrayList<>();
+        for (int j = 0; j < this.vertexn; j++) {
             if (id != j && this.adyacentes(id, j)) {
                 aristas.add(this.arista(id, j));
             }
@@ -211,27 +89,13 @@ public class Graph<T, N extends Number> {
         return aristas;
     }
 
-//     /**
-//     * Devuelve las aristas incidentes en un vértice del grafo.
-//     * @param v El vértice.
-//     * @return Las aristas incidentes en v.
-//     */
-//    public ArrayList<Arista> aristasIncidentes(Vertice v) throws IllegalArgumentException {
-//        if(!this.existeVertice(v)) throw new IllegalArgumentException("Error al consultar aristas incidentes: vértice no existe.");
-//        return this.aristasIncidentes(this.idVertice(v));
-//    }
-    /**
-     * Devuelve los vértices adyacentes a un vértice del grafo.
-     *
-     * @param id El identificador del vértice.
-     * @return Los vértices adyacentes a v.
-     */
-    private ArrayList<Vertice> verticesAdyacentes(int id) throws IllegalArgumentException {
+
+    private ArrayList<Vertex> verticesAdyacentes(int id) throws IllegalArgumentException {
         if (!this.existeIdVertice(id)) {
             throw new IllegalArgumentException("Error al consultar vértices adyacentes: id de vértice no existe.");
         }
-        ArrayList<Vertice> vAd = new ArrayList<>();
-        for (int j = 0; j < this.nVertices; j++) {
+        ArrayList<Vertex> vAd = new ArrayList<>();
+        for (int j = 0; j < this.vertexn; j++) {
             if (id != j && this.adyacentes(id, j)) {
                 vAd.add(this.vertice(j));
             }
@@ -239,30 +103,15 @@ public class Graph<T, N extends Number> {
         return vAd;
     }
 
-    /**
-     * Devuelve los vértices adyacentes a un vértice del grafo.
-     *
-     * @param v El vértice.
-     * @return Los vértices adyacentes a v.
-     */
-    public ArrayList<Vertice> verticesAdyacentes(Vertice v) throws IllegalArgumentException {
+   
+    public ArrayList<Vertex> verticesAdyacentes(Vertex v) throws IllegalArgumentException {
         if (!this.existeVertice(v)) {
             throw new IllegalArgumentException("Error al consultar vértices adyacentes: vértice no existe.");
         }
         return this.verticesAdyacentes(this.idVertice(v));
     }
 
-    /**
-     * Devuelve uno de los caminos posibles con menor longitud entre dos
-     * vértices. El camino será un array con los indentificadores de los
-     * vértices que forman el camino. Si no existe camino, devuelve un array
-     * vacío.
-     *
-     * @param idOrigen Identificador de un vértice.
-     * @param idDestino Identificador de un vértice.
-     * @return Uno de los caminos posibles con menor longitud entre dos
-     * vértices.
-     */
+   
     public ArrayList<Integer> camino(int idOrigen, int idDestino) throws IllegalArgumentException {
         if (!(this.existeIdVertice(idOrigen) && this.existeIdVertice(idDestino))) {
             throw new IllegalArgumentException("Error en camino(int,int): algún vértice no existe.");
@@ -272,20 +121,20 @@ public class Graph<T, N extends Number> {
         }
 
         //BFS. Busco el camino de destino a origen para no tener que inveertir el array al final
-        int[] predecesores = new int[this.nVertices];
+        int[] predecesores = new int[this.vertexn];
 
-        ArrayList<Vertice> Q = new ArrayList<>();
-        boolean[] visitado = new boolean[this.nVertices];
+        ArrayList<Vertex> Q = new ArrayList<>();
+        boolean[] visitado = new boolean[this.vertexn];
         for (int i = 0; i < visitado.length; i++) {
             visitado[i] = false;
         }
-        Vertice v = this.vertices.get(idDestino);
+        Vertex v = this.vertex.get(idDestino);
         Q.add(v);
         visitado[idDestino] = true;
-        Vertice t = null;
+        Vertex t = null;
         while (!Q.isEmpty() && idVertice(t = Q.get(0)) != idOrigen) {
             Q.remove(t);
-            for (Vertice u : this.verticesAdyacentes(t)) {
+            for (Vertex u : this.verticesAdyacentes(t)) {
                 if (!visitado[this.idVertice(u)]) {
                     predecesores[this.idVertice(u)] = this.idVertice(t);
                     visitado[this.idVertice(u)] = true;
@@ -313,16 +162,16 @@ public class Graph<T, N extends Number> {
      * @return Cierto si las aristas conectan todos los vértices del grafo.
      * Falso en caso contrario.
      */
-    public boolean conectaTodosVertices(ArrayList<Arista> aristas) throws IllegalArgumentException {
-        ArrayList<Vertice> V = new ArrayList<>();
+    public boolean conectaTodosVertices(ArrayList<Edge> aristas) throws IllegalArgumentException {
+        ArrayList<Vertex> V = new ArrayList<>();
         int visitados = 0;
-        for (int i = 0; i < aristas.size() && visitados < this.nVertices; i++) {
-            Arista a = aristas.get(i);
+        for (int i = 0; i < aristas.size() && visitados < this.vertexn; i++) {
+            Edge a = aristas.get(i);
             if (a == null) {
                 throw new IllegalArgumentException("Error al comprobar arista: referencia nula a la arista.");
             }
-            int idOrigen = a.origen();
-            int idDestino = a.destino();
+            int idOrigen = a.getBegin();
+            int idDestino = a.getEnd();
             if (idOrigen == idDestino) {
                 throw new IllegalArgumentException("Error al comprobar arista: la arista tiene el mismo origen y destino.");
             }
@@ -330,8 +179,8 @@ public class Graph<T, N extends Number> {
                 throw new IllegalArgumentException("Error al comprobar arista: algún vértice no existe.");
             }
 
-            Vertice v1 = this.vertice(idOrigen);
-            Vertice v2 = this.vertice(idDestino);
+            Vertex v1 = this.vertice(idOrigen);
+            Vertex v2 = this.vertice(idDestino);
             if (!V.contains(v1)) {
                 V.add(v1);
                 visitados++;
@@ -341,7 +190,7 @@ public class Graph<T, N extends Number> {
                 visitados++;
             }
         }
-        return visitados == this.nVertices;
+        return visitados == this.vertexn;
     }
 
     /**
@@ -351,9 +200,9 @@ public class Graph<T, N extends Number> {
      */
     public boolean completo() {
         boolean esCompleto = true;
-        for (int i = 0; i < this.nVertices && esCompleto; i++) {
-            for (int j = i + 1; j < this.nVertices; j++) {
-                if (this.matrizAdyacencias.get(i).get(j) == null) {
+        for (int i = 0; i < this.vertexn && esCompleto; i++) {
+            for (int j = i + 1; j < this.vertexn; j++) {
+                if (this.Adjacenciesmatrix.get(i).get(j) == null) {
                     esCompleto = false;
                 }
             }
@@ -368,18 +217,18 @@ public class Graph<T, N extends Number> {
      */
     public boolean conexo() {
         //BFS
-        ArrayList<Vertice> Q = new ArrayList<>();
-        Q.add(this.vertices.get(0));
-        boolean[] visitado = new boolean[this.nVertices];
+        ArrayList<Vertex> Q = new ArrayList<>();
+        Q.add(this.vertex.get(0));
+        boolean[] visitado = new boolean[this.vertexn];
         for (int i = 0; i < visitado.length; i++) {
             visitado[i] = false;
         }
         visitado[0] = true;
         int countVis = 1;
         while (!Q.isEmpty()) {
-            Vertice t = Q.get(0);
+        	Vertex t = Q.get(0);
             Q.remove(t);
-            for (Vertice u : this.verticesAdyacentes(t)) {
+            for (Vertex u : this.verticesAdyacentes(t)) {
                 if (!visitado[this.idVertice(u)]) {
                     visitado[this.idVertice(u)] = true;
                     countVis++;
@@ -387,63 +236,45 @@ public class Graph<T, N extends Number> {
                 }
             }
         }
-        return countVis == this.nVertices;
+        return countVis == this.vertexn;
     }
 
-    /**
-     * Devuelve cierto si el grafo es euleriano.
-     *
-     * @return Cierto si el grafo es euleriano. Falso en caso contrario.
-     */
-    public boolean euleriano() {
-        for (int g : this.grados) {
-            if (g % 2 == 1) {
-                return false;
-            }
-        }
-        return this.conexo();
-    }
-
+   
     /**
      * Añade un nuevo vértice al grafo. El vértice no puede estar ya contenido
      * en el grafo.
      *
      * @param v El vértice que se añadirá al grafo.
      */
-    public void anadirVertice(Vertice v) throws IllegalArgumentException {
-        if (this.vertices.contains(v)) {
+    public void anadirVertice(Vertex v) throws IllegalArgumentException {
+        if (this.vertex.contains(v)) {
             throw new IllegalArgumentException("Error al añadir vértice: el vértice ya existe.");
         }
-        this.vertices.add(v);
-        this.matrizAdyacencias.add(new ArrayList<Arista<N>>());
-        this.grados.add(0);
-        this.listasAdyacencias.put(this.nVertices, new ArrayList<Vertice<T>>());
+        this.vertex.add(v);
+        this.Adjacenciesmatrix.add(new ArrayList<Edge<N>>());
+        
+        this.AdjacenciesList.put(this.vertexn, new ArrayList<Vertex<T>>());
 
-        this.nVertices++;
-        for (int i = 0; i < this.nVertices; i++) {
-            int dif = this.nVertices - this.matrizAdyacencias.get(i).size();
+        this.vertexn++;
+        for (int i = 0; i < this.vertexn; i++) {
+            int dif = this.vertexn - this.Adjacenciesmatrix.get(i).size();
             for (int j = 0; j < dif; j++) {
-                this.matrizAdyacencias.get(i).add(null);
+                this.Adjacenciesmatrix.get(i).add(null);
             }
         }
     }
 
-    /**
-     * Modifica un vértice del grafo. El identificador debe cumplir: id>=0 y
-     * id menor que el número de vértices del grafo. 
-     * @param id El identificador del vértice que va a ser sustituido.
-     * @param v El vértice que sustituirá al original.
-     */
-    public void modificarVertice(int id, Vertice v) throws IllegalArgumentException {
+   
+    public void modificarVertice(int id, Vertex v) throws IllegalArgumentException {
         if (!this.existeIdVertice(id)) {
             throw new IllegalArgumentException("Error al modificar vértice: identificador no válido.");
         }
         //Modificamos listas de adyacencias
-        HashMap<Integer, ArrayList<Vertice<T>>> listas = this.listasAdyacencias;
-        for (int i = 0; i < this.nVertices; i++) {
-            ArrayList<Vertice<T>> lista = listas.get(i);
+        HashMap<Integer, ArrayList<Vertex<T>>> listas = this.AdjacenciesList;
+        for (int i = 0; i < this.vertexn; i++) {
+            ArrayList<Vertex<T>> lista = listas.get(i);
             if (i != id) {
-                Vertice<T> w = this.vertice(id);
+            	Vertex<T> w = this.vertice(id);
                 if (lista.contains(w)) {
                     lista.set(lista.indexOf(w), v);
                 } else {
@@ -451,21 +282,16 @@ public class Graph<T, N extends Number> {
                 }
             }
         }
-        //////
-        this.vertices.set(id, v);
+      
+        this.vertex.set(id, v);
     }
 
-    /**
-     * Devuelve el vértice con identificador=id. El identificador debe cumplir:
-     * id>=0 y id menor que el número de vértices del grafo.
-     * @param id El identificador del vértice que va a ser consultado.
-     * @return El vértice solicitado.
-     */
-    public Vertice vertice(int id) throws IllegalArgumentException {
+   
+    public Vertex vertice(int id) throws IllegalArgumentException {
         if (!this.existeIdVertice(id)) {
             throw new IllegalArgumentException("Error al consultar vértice: identificador no válido.");
         }
-        return this.vertices.get(id);
+        return this.vertex.get(id);
     }
 
     /**
@@ -484,60 +310,11 @@ public class Graph<T, N extends Number> {
         if (idOrigen == idDestino) {
             throw new IllegalArgumentException("Error en adyacentes(int,int): deben ser identificadores diferentes.");
         }
-        return this.matrizAdyacencias.get(idOrigen).get(idDestino) != null || this.matrizAdyacencias.get(idDestino).get(idOrigen) != null;
+        return this.Adjacenciesmatrix.get(idOrigen).get(idDestino) != null || this.Adjacenciesmatrix.get(idDestino).get(idOrigen) != null;
     }
 
-//     /**
-//     * Devuelve cierto si los vértices son adyacentes. Falso en caso contrario.
-//     * @param origen Un vértice que existe en el grafo.
-//     * @param destino Un vértice que existe en el grafo.
-//     * @return Cierto si los dos vértices son adyacentes, falso en caso contrario.
-//     */   
-//    public boolean adyacentes(Vertice origen, Vertice destino) throws IllegalArgumentException {
-//        if(!(this.vertices.contains(origen) && this.vertices.contains(destino))) 
-//            throw new IllegalArgumentException("Error en adyacentes(Vertice,Vertice): algún vértice no existe.");
-//        if(this.vertices.indexOf(origen)==this.vertices.indexOf(destino)) 
-//            throw new IllegalArgumentException("Error en adyacentes(Vertice,Vertice): deben ser vértices diferentes.");
-//        int idOrigen = this.vertices.indexOf(origen);
-//        int idDestino = this.vertices.indexOf(destino);
-//        return this.adyacentes(idOrigen, idDestino);
-//    }
-//     /**
-//     * Devuelve cierto si la arista está presente en el grafo. Falso en caso contrario.
-//     * @param idOrigen Identificador del vértice origen de la arista.
-//     * @param idDestino Identificador del vértice destino de la arista.
-//     * @return Cierto si la arista está presente en el grafo. Falso en caso contrario.
-//     */     
-//    public boolean existeArista(int idOrigen, int idDestino) throws IllegalArgumentException {
-//        if(!(this.existeIdVertice(idOrigen) && this.existeIdVertice(idDestino))) 
-//            throw new IllegalArgumentException("Error al comprobar arista: algún vértice no existe.");
-//        if(idOrigen==idDestino) throw new IllegalArgumentException("Error al comprobar arista: deben ser identificadores diferentes.");
-//        return this.matrizAdyacencias.get(idOrigen).get(idDestino)!=null || this.matrizAdyacencias.get(idDestino).get(idOrigen)!=null;
-//    }
-//     /**
-//     * Devuelve cierto si la arista está presente en el grafo. Falso en caso contrario.
-//     * @param origen Vértice origen de la arista.
-//     * @param destino Vértice destino de la arista.
-//     * @return Cierto si la arista está presente en el grafo. Falso en caso contrario.
-//     */  
-//    public boolean existeArista(Vertice origen, Vertice destino) throws IllegalArgumentException {
-//        if(!(this.existeVertice(origen)&& this.existeVertice(destino))) 
-//            throw new IllegalArgumentException("Error al comprobar arista: algún vértice no existe.");
-//        if(this.vertices.indexOf(origen)==this.vertices.indexOf(destino)) 
-//            throw new IllegalArgumentException("Error al comprobar arista: deben ser vértices diferentes.");
-//        int idOrigen = this.vertices.indexOf(origen);
-//        int idDestino = this.vertices.indexOf(destino);
-//        return existeArista(idOrigen, idDestino);
-//    }
-    /**
-     * Devuelve la arista incidente en los vértices con idOrigen y idDestino.
-     *
-     * @param idOrigen Indentificador del vértice origen incidente en la arista.
-     * @param idDestino Indentificador del vértice destino incidente en la
-     * arista.
-     * @return Arista incidente en origen y destino.
-     */
-    public Arista arista(int idOrigen, int idDestino) throws IllegalArgumentException {
+
+    public Edge arista(int idOrigen, int idDestino) throws IllegalArgumentException {
         if (!(this.existeIdVertice(idOrigen) && this.existeIdVertice(idDestino))) {
             throw new IllegalArgumentException("Error al consultar una arista: algún vértice no existe.");
         }
@@ -548,57 +325,32 @@ public class Graph<T, N extends Number> {
             throw new IllegalArgumentException("Error al consultar una arista: los vértices no son adyacentes.");
         }
 
-        Arista a = this.matrizAdyacencias.get(idOrigen).get(idDestino);
+        Edge a = this.Adjacenciesmatrix.get(idOrigen).get(idDestino);
         return a;
     }
 
-//     /**
-//     * Devuelve una arista incidente en los vértices origen y destino. 
-//     * @param origen Vértice origen incidente en la arista.
-//     * @param destino Vértice destino incidente en la arista.
-//     * @return Arista incidente en origen y destino.
-//     */
-//    public Arista arista(Vertice origen, Vertice destino) throws IllegalArgumentException {
-//        if(!(this.existeVertice(origen) && this.existeVertice(destino))) 
-//            throw new IllegalArgumentException("Error al consultar una arista: algún vértice no existe.");
-//        if(this.vertices.indexOf(origen)==this.vertices.indexOf(destino)) 
-//            throw new IllegalArgumentException("Error al consultar una arista: deben ser vértices diferentes.");
-//        if(!this.adyacentes(origen, destino)) 
-//            throw new IllegalArgumentException("Error al consultar una arista: los vértices no son adyacentes.");
-//        return this.arista(this.idVertice(origen), this.idVertice(destino));
-//    }
-    /**
-     * Pone una arista en el grafo que incidirá en los vértices idOrigen y
-     * idDestino. Si ya hay una, la sustituye.
-     *
-     * @param idOrigen Identificador de un vértice.
-     * @param idDestino Identificador de un vértice.
-     * @param arista Arista que se va a añadir al grafo.
-     */
-    private void ponerArista(int idOrigen, int idDestino, Arista arista) throws IllegalArgumentException {
+
+    private void ponerArista(int idOrigen, int idDestino, Edge arista) throws IllegalArgumentException {
         if (!(this.existeIdVertice(idOrigen) && this.existeIdVertice(idDestino))) {
             throw new IllegalArgumentException("Error al poner una arista: algún vértice no existe.");
         }
         if (idOrigen == idDestino) {
             throw new IllegalArgumentException("Error al poner una arista: deben ser identificadores diferentes.");
         }
-        if (!this.adyacentes(idOrigen, idDestino)) {
-            this.aumentarGrado(idOrigen);
-            this.aumentarGrado(idDestino);
-        }
+        
         //Actualizar matriz de adyacencia
-        arista.modificarOrigen(idOrigen);
-        arista.modificarDestino(idDestino);
-        this.matrizAdyacencias.get(idOrigen).set(idDestino, arista);
-        Arista inv = new Arista(arista);
-        inv.modificarOrigen(idDestino);
-        inv.modificarDestino(idOrigen);
-        this.matrizAdyacencias.get(idDestino).set(idOrigen, inv);
+        arista.setBegin(idOrigen);
+        arista.setEnd(idDestino);
+        this.Adjacenciesmatrix.get(idOrigen).set(idDestino, arista);
+        Edge inv = new Edge(arista);
+        inv.setBegin(idDestino);
+        inv.setEnd(idOrigen);
+        this.Adjacenciesmatrix.get(idDestino).set(idOrigen, inv);
         //Actualizar listas de adyacencias
-        ArrayList<Vertice<T>> listAdyOri = this.listasAdyacencias.get(idOrigen);
-        ArrayList<Vertice<T>> listAdyDest = this.listasAdyacencias.get(idDestino);
-        Vertice origen = this.vertice(idOrigen);
-        Vertice destino = this.vertice(idDestino);
+        ArrayList<Vertex<T>> listAdyOri = this.AdjacenciesList.get(idOrigen);
+        ArrayList<Vertex<T>> listAdyDest = this.AdjacenciesList.get(idDestino);
+        Vertex origen = this.vertice(idOrigen);
+        Vertex destino = this.vertice(idDestino);
         if (!listAdyOri.contains(destino)) {
             listAdyOri.add(destino);
         }
@@ -606,31 +358,21 @@ public class Graph<T, N extends Number> {
             listAdyDest.add(origen);
         }
 
-        this.nAristas++;
+        this.edge++;
     }
 
-    /**
-     * Pone una arista en el grafo que incidirá en los vértices arista.origen()
-     * y arista.destino(). Si ya hay una, la sustituye.
-     *
-     * @param arista Arista que se va a añadir al grafo.
-     */
-    public void ponerArista(Arista arista) throws IllegalArgumentException {
-        if (!(this.existeIdVertice(arista.origen()) && this.existeIdVertice(arista.destino()))) {
+    
+    public void ponerArista(Edge arista) throws IllegalArgumentException {
+        if (!(this.existeIdVertice(arista.getBegin()) && this.existeIdVertice(arista.getEnd()))) {
             throw new IllegalArgumentException("Error al poner una arista: algún vértice no existe.");
         }
-        if (arista.origen() == arista.destino()) {
+        if (arista.getBegin() == arista.getEnd()) {
             throw new IllegalArgumentException("Error al poner una arista: deben ser identificadores diferentes.");
         }
-        this.ponerArista(arista.origen(), arista.destino(), arista);
+        this.ponerArista(arista.getBegin(), arista.getEnd(), arista);
     }
 
-    /**
-     * Eliminina una arista del grafo.
-     *
-     * @param idOrigen Identificador del extremo origen de la arista.
-     * @param idDestino Identificador del extremo destino de la arista.
-     */
+   
     public void eliminarArista(int idOrigen, int idDestino) throws IllegalArgumentException {
         if (!(this.existeIdVertice(idOrigen) && this.existeIdVertice(idDestino))) {
             throw new IllegalArgumentException("Error al eliminar una arista: algún vértice no existe.");
@@ -641,21 +383,18 @@ public class Graph<T, N extends Number> {
         if (!this.adyacentes(idOrigen, idDestino)) {
             throw new IllegalArgumentException("Error al eliminar una arista: la arista no existe.");
         }
-        if (this.adyacentes(idOrigen, idDestino)) {
-            this.disminuirGrado(idOrigen);
-            this.disminuirGrado(idDestino);
-        }
+       
         //Actualizar matriz de adyacencia
-        this.matrizAdyacencias.get(idOrigen).set(idDestino, null);
-        this.matrizAdyacencias.get(idDestino).set(idOrigen, null);
+        this.Adjacenciesmatrix.get(idOrigen).set(idDestino, null);
+        this.Adjacenciesmatrix.get(idDestino).set(idOrigen, null);
         //Actualizar listas de adyacencias
-        ArrayList<Vertice<T>> listAdyOri = this.listasAdyacencias.get(idOrigen);
-        ArrayList<Vertice<T>> listAdyDest = this.listasAdyacencias.get(idDestino);
-        Vertice origen = this.vertice(idOrigen);
-        Vertice destino = this.vertice(idDestino);
+        ArrayList<Vertex<T>> listAdyOri = this.AdjacenciesList.get(idOrigen);
+        ArrayList<Vertex<T>> listAdyDest = this.AdjacenciesList.get(idDestino);
+        Vertex origen = this.vertice(idOrigen);
+        Vertex destino = this.vertice(idDestino);
         listAdyOri.remove(destino);
         listAdyDest.remove(origen);
 
-        this.nAristas--;
+        this.edge--;
     }
 }

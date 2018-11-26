@@ -2,156 +2,88 @@ package collentions;
 
 public class Edge<N extends Number> implements Comparable {
 
-    private int origen;
-    private int destino;
-    private N peso;
+    private int begin;
+    private int end;
+    private N weight;
 
-    /**
-     * Constructor por defecto. Los extremos de la arista están inicializados
-     * con identificadores menor que 0. El peso es null.
-     */
+   
     public Edge() {
-        this.origen = -1;
-        this.destino = -2;
-        this.peso = null;
+        this.begin = -1;
+        this.end = -2;
+        this.weight = null;
     }
 
-//    /**
-//    *Constructor.
-//    * @param n El peso de la arista.
-//    */    
-//    public Arista(N n){
-//        this();
-//        this.peso = n;
-//    }
-    /**
-     * Constructor completo.
-     *
-     * @param idOrigen Extremo origen de la arista.
-     * @param idDestino Extremo destino de la arista.
-     * @param peso Peso de la arista.
-     */
-    public Edge(int idOrigen, int idDestino, N peso) {
-        this.origen = idOrigen;
-        this.destino = idDestino;
-        this.peso = peso;
+ 
+  
+    public Edge(int begin, int end, N weight) {
+        this.begin = begin;
+        this.end = end;
+        this.weight = weight;
     }
 
-    /**
-     * Constructor copia.
-     *
-     * @param original Arista original que se va a copiar.
-     */
-    public Edge(Edge<N> original) {
-        this.origen = original.origen;
-        this.destino = original.destino;
-        if (original.peso == null) {
-            this.peso = null;
+  
+    public Edge(Edge<N> origin) {
+        this.begin = origin.begin;
+        this.end = origin.end;
+        if (origin.weight == null) {
+            this.weight = null;
         } else {
-            this.peso = original.peso;
+            this.weight = origin.weight;
         }
     }
 
-//    /**
-//    * Modificadora completa.
-//    * @param idOrigen Extremo origen de la arista.
-//    * @param idDestino Extremo destino de la arista.
-//    * @param peso Peso de la arista.
-//    */    
-//    public void modificar(int idOrigen,int idDestino,N peso){
-//        this.origen=idOrigen;
-//        this.destino=idDestino;
-//        this.peso=peso;
-//    }
-    /**
-     * Devuelve el extremo origen de la arista.
-     *
-     * @return El extremo origen de la arista.
-     */
-    public int origen() {
-        return this.origen;
-    }
+    
+  
+   
 
-    /**
-     * Modifica el extremo origen de la arista.
-     *
-     * @param idOrigen El nuevo extremo origen de la arista.
-     */
-    public void modificarOrigen(int idOrigen) {
-        this.origen = idOrigen;
-    }
 
-    /**
-     * Devuelve el extremo destino de la arista.
-     *
-     * @return El extremo destino de la arista.
-     */
-    public int destino() {
-        return this.destino;
-    }
+    public int getBegin() {
+		return begin;
+	}
 
-    /**
-     * Modifica el extremo destino de la arista.
-     *
-     * @param idDestino El nuevo extremo destino de la arista.
-     */
-    public void modificarDestino(int idDestino) {
-        this.destino = idDestino;
-    }
 
-    /**
-     * Devuelve el peso de la arista.
-     *
-     * @return El peso de la arista.
-     */
-    public N peso() throws IllegalArgumentException {
-        if (this.peso == null) {
-            throw new IllegalArgumentException("Error al consultar peso de una arista: referencia nula.");
-        }
-        return this.peso;
-    }
 
-    /**
-     * Modifica el peso de la arista.
-     *
-     * @param peso El nuevo peso de tipo N de la arista.
-     */
-    public void modificarPeso(N peso) {
-        this.peso = peso;
-    }
+	public void setBegin(int begin) {
+		this.begin = begin;
+	}
 
-//    @Override
-//    public int compareTo(Object o) {
-//        Arista<N> a = (Arista<N>)o;
-//        int res = 0;
-//        Double peso1 = (Double) this.peso;
-//        Double peso2 = (Double) a.peso();
-//        if (peso1 < peso2) {
-//            res = -1;
-//        } else if (peso1 == peso2) {
-//            res = 0;
-//        } else if (peso1 > peso2) {
-//            res = 1;
-//        }
-//        return res;
-//    }
 
-     /**
-     * Compara dos aristas.
-     * @param o La arista con la que se quiere comparar
-     * @return -1 si la arista implícita tiene menor peso, 0 si tienen el mismo peso, 1 si tiene mayor peso
-     */
-    @Override
+
+	public int getEnd() {
+		return end;
+	}
+
+
+
+	public void setEnd(int end) {
+		this.end = end;
+	}
+
+
+
+	public N getWeight() {
+		return weight;
+	}
+
+
+
+	public void setWeight(N weight) {
+		this.weight = weight;
+	}
+
+
+
+	@Override
     public int compareTo(Object o) {
     	Edge<N> a = (Edge<N>)o;
         int res = 0;
-        Double peso1 = (Double) this.peso();
-        Double peso2 = (Double) a.peso();
-        if (peso1 < peso2) {
+        Double weight1 = (Double) this.getWeight();
+        Double weight2 = (Double) a.getWeight();
+        if (weight1 < weight2) {
             res = -1;
-        } else if (peso1 == peso2) {
+        } else if (weight1 == weight2) {
             res = 0;
-        } else if (peso1 > peso2) {
+        } else if (weight1 > weight2) {
             res = 1;
         }
         return res;
