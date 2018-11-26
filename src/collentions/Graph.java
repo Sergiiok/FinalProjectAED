@@ -2,15 +2,17 @@ package collentions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 public class Graph<T, N extends Number> {
 
+	public static final int INFINITO=-1;
     private ArrayList<ArrayList<Edge<N>>> Adjacenciesmatrix;
     private HashMap<Integer, ArrayList<Vertex<T>>> AdjacenciesList;
     private ArrayList<Vertex<T>> vertex;
     private int edge;
     private int vertexn;
-
+   
 
    
     
@@ -48,6 +50,8 @@ public class Graph<T, N extends Number> {
         }
     }
 
+    
+    
    
          
 
@@ -55,7 +59,57 @@ public class Graph<T, N extends Number> {
    
 
    
-    private boolean existeIdVertice(int id) {
+    public ArrayList<ArrayList<Edge<N>>> getAdjacenciesmatrix() {
+		return Adjacenciesmatrix;
+	}
+
+
+	public void setAdjacenciesmatrix(ArrayList<ArrayList<Edge<N>>> adjacenciesmatrix) {
+		Adjacenciesmatrix = adjacenciesmatrix;
+	}
+
+
+	public HashMap<Integer, ArrayList<Vertex<T>>> getAdjacenciesList() {
+		return AdjacenciesList;
+	}
+
+
+	public void setAdjacenciesList(HashMap<Integer, ArrayList<Vertex<T>>> adjacenciesList) {
+		AdjacenciesList = adjacenciesList;
+	}
+
+
+	public ArrayList<Vertex<T>> getVertex() {
+		return vertex;
+	}
+
+
+	public void setVertex(ArrayList<Vertex<T>> vertex) {
+		this.vertex = vertex;
+	}
+
+
+	public int getEdge() {
+		return edge;
+	}
+
+
+	public void setEdge(int edge) {
+		this.edge = edge;
+	}
+
+
+	public int getVertexn() {
+		return vertexn;
+	}
+
+
+	public void setVertexn(int vertexn) {
+		this.vertexn = vertexn;
+	}
+
+
+	private boolean existeIdVertice(int id) {
         return id >= 0 && id < this.vertexn;
     }
 
@@ -294,15 +348,7 @@ public class Graph<T, N extends Number> {
         return this.vertex.get(id);
     }
 
-    /**
-     * Devuelve cierto si los dos vértices con identificador idOrigen y
-     * idDestino, respectivamente, son adyacentes. Falso en caso contrario.
-     *
-     * @param idOrigen El identificador de un vértice que existe en el grafo.
-     * @param idDestino El identificador de un vértice que existe en el grafo.
-     * @return Cierto si los dos vértices son adyacentes, falso en caso
-     * contrario.
-     */
+    
     public boolean adyacentes(int idOrigen, int idDestino) throws IllegalArgumentException {
         if (!(this.existeIdVertice(idOrigen) && this.existeIdVertice(idDestino))) {
             throw new IllegalArgumentException("Error en adyacentes(int,int): algún vértice no existe.");
@@ -397,4 +443,83 @@ public class Graph<T, N extends Number> {
 
         this.edge--;
     }
+    
+    
+    public int[][] AlgPrim(int[][] Matriz) {  //Llega la matriz a la que le vamos a aplicar el algoritmo
+        boolean[] marcados = new boolean[vertex.size()]; //Creamos un vector booleano, para saber cuales están marcados
+        Vertex vertice = vertex.get(0); //Le introducimos un nodo aleatorio, o el primero
+        return AlgPrim(Matriz, marcados, vertice, new int[Matriz.length][Matriz.length]); //Llamamos al método recursivo mandándole 
+    }                                                                                     //un matriz nueva para que en ella nos 
+                                                                                          //devuelva el árbol final
+    private int[][] AlgPrim(int[][] Matriz, boolean[] marcados, Vertex vertice, int[][] Final) {
+        marcados[vertex.indexOf(vertice)] = true;//marcamos el primer nodo
+        int aux = -1;
+        if (!TodosMarcados(marcados)) { //Mientras que no todos estén marcados
+            for (int i = 0; i < marcados.length; i++) { //Recorremos sólo las filas de los nodos marcados
+                if (marcados[i]) {
+                    for (int j = 0; j < Matriz.length; j++) {
+                        if (Matriz[i][j] != 0) {        //Si la arista existe
+                            if (!marcados[j]) {         //Si el nodo no ha sido marcado antes
+                                if (aux == -1) {        //Esto sólo se hace una vez
+                                    aux = Matriz[i][j];
+                                } else {
+                                    aux = Math.min(aux, Matriz[i][j]); //Encontramos la arista mínima
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            //Aquí buscamos el nodo correspondiente a esa arista mínima (aux)
+            for (int i = 0; i < marcados.length; i++) {
+                if (marcados[i]) {
+                    for (int j = 0; j < Matriz.length; j++) {
+                        if (Matriz[i][j] == aux) {
+                            if (!marcados[j]) { //Si no ha sido marcado antes
+                                Final[i][j] = aux; //Se llena la matriz final con el valor
+                                Final[j][i] = aux;//Se llena la matriz final con el valor
+                                return AlgPrim(Matriz, marcados, vertex.get(j), Final); //se llama de nuevo al método con
+                                                                                               //el nodo a marcar
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return Final;
+    }
+    public boolean TodosMarcados(boolean[] vertice) { //Método para saber si todos están marcados
+        for (boolean b : vertice) {
+            if (!b) {
+                return b;
+            }
+        }
+        return true;
+    }
+    public ArrayList<Vertex> dijkstra(Vertex origen, Vertex destino) {
+		  ArrayList<Vertex> camino= new ArrayList<Vertex>();
+		  int distancia=INFINITO;
+		  Vertex nodo=origen;
+		  boolean fin=true;
+		  camino.add(nodo);
+		  while(fin) {
+			  
+			  
+			  if(nodo==destino) {
+				  fin=false;
+			  }
+		  }
+		  
+		  return camino;
+	  }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
